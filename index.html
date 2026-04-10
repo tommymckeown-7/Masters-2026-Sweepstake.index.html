@@ -2,588 +2,458 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Masters 2026 — Office Sweepstake</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --green:#1b5e35;--green-mid:#2d7a48;--green-light:#e8f3ec;--green-border:#a8d4b5;
-  --gold:#9a7400;--gold-bg:#fdf6e3;--gold-border:#e0c97a;
-  --text:#1a1a1a;--text-muted:#5a5a5a;--text-hint:#999;
-  --border:#e2e2e2;--border-mid:#ccc;
-  --bg:#f7f6f2;--surface:#fff;
-  --red:#c0392b;--red-bg:#fdf0ef;
-  --r:8px;--rlg:12px;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:  #1a2e1a;
+  --gold:        #c9a84c;
+  --gold-light:  #e8d08a;
+  --cream:       #f5f0e8;
+  --cream-dark:  #e8e0d0;
+  --text-muted:  #a8b8a8;
+  --red:         #e05c5c;
+  --green-score: #6acc8a;
+  --card-bg:     rgba(44,74,44,0.45);
+  --card-border: rgba(201,168,76,0.2);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.5}
 
-/* Header */
-.hdr{background:var(--green);padding:22px 20px 18px;color:#fff;text-align:center}
-.hdr-eye{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.65;margin-bottom:5px}
-.hdr h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:600;line-height:1.15}
-.hdr-sub{font-size:13px;opacity:.6;margin-top:4px}
-.live-pill{display:inline-flex;align-items:center;gap:5px;margin-top:10px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 11px;font-size:11px;letter-spacing:.04em}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--green-deep);
+  color: var(--cream);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(61,107,61,0.5) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(26,46,26,0.8) 0%, transparent 60%);
+}
 
-/* Nav */
-.nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex}
-.ntab{flex:1;padding:13px 6px;font-size:13px;font-weight:500;color:var(--text-muted);border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;transition:all .15s;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.ntab.on{color:var(--green);border-bottom-color:var(--green)}
-.ntab:hover:not(.on){color:var(--text)}
+header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+  border-bottom: 1px solid var(--card-border);
+}
+.flag-line {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin-bottom: 0.75rem;
+}
+.flag-line::before, .flag-line::after {
+  content: ''; height: 1px; width: 50px;
+  background: var(--gold); opacity: 0.5;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 600; color: var(--gold-light); line-height: 1.1;
+}
+.subtitle {
+  font-size: 0.8rem; color: var(--text-muted);
+  margin-top: 0.4rem; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.points-key {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 6px; padding: 1rem 1rem 0; max-width: 680px; margin: 0 auto;
+}
+.pk {
+  font-size: 0.72rem; padding: 3px 10px; border-radius: 20px;
+  border: 1px solid var(--card-border); color: var(--gold-light);
+  background: rgba(201,168,76,0.08); white-space: nowrap;
+}
 
-/* Layout */
-.panel{display:none;padding:18px 16px 40px;max-width:660px;margin:0 auto}
-.panel.on{display:block}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:16px 18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.card-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:600}
+.tabs {
+  display: flex; max-width: 900px; margin: 0 auto;
+  padding: 0 1rem; border-bottom: 1px solid var(--card-border);
+}
+.tab {
+  padding: 12px 20px; font-size: 0.85rem; font-weight: 500;
+  color: var(--text-muted); cursor: pointer;
+  border-bottom: 2px solid transparent; transition: all 0.15s;
+}
+.tab.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+.tab:hover:not(.active) { color: var(--cream); }
 
-/* Inputs */
-input[type=text]{width:100%;padding:9px 12px;border:1px solid var(--border-mid);border-radius:var(--r);font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);transition:border-color .15s}
-input[type=text]:focus{outline:none;border-color:var(--green);background:#fff}
-select{padding:9px 12px;border:1px solid var(--border-mid);border-radius:var(--r);font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
-select:focus{outline:none;border-color:var(--green)}
+.controls {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1.5rem; max-width: 900px; margin: 0 auto;
+}
+.last-updated { font-size: 0.75rem; color: var(--text-muted); }
+.refresh-btn {
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+  padding: 5px 14px; border-radius: 20px; border: 1px solid var(--gold);
+  background: transparent; color: var(--gold); cursor: pointer; transition: all 0.2s;
+}
+.refresh-btn:hover { background: rgba(201,168,76,0.12); }
+.refresh-btn:disabled { opacity: 0.4; cursor: default; }
 
-/* Buttons */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;border:1px solid var(--border-mid);background:var(--surface);color:var(--text)}
-.btn:hover{background:var(--bg)}
-.btn:active{transform:scale(.98)}
-.btn-primary{background:var(--green);color:#fff;border-color:var(--green)}
-.btn-primary:hover{background:var(--green-mid);border-color:var(--green-mid)}
-.btn-primary:disabled{background:#aaa;border-color:#aaa;cursor:not-allowed;transform:none}
-.btn-sm{padding:5px 12px;font-size:12px}
-.btn-danger{color:var(--red);border-color:#e8b4b0}
-.btn-danger:hover{background:var(--red-bg)}
-.btn-gold{background:var(--gold-bg);color:var(--gold);border-color:var(--gold-border);font-weight:500}
+.panel { display: none; max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; }
+.panel.active { display: block; }
 
-/* Participants */
-.p-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.p-num{width:26px;height:26px;border-radius:50%;background:var(--green-light);color:var(--green);font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* Sweepstake cards */
+.card {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 12px; margin-bottom: 10px; overflow: hidden;
+  transition: border-color 0.2s; animation: fadeUp 0.4s ease both;
+}
+.card:hover { border-color: rgba(201,168,76,0.4); }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.card-header {
+  display: flex; align-items: center;
+  padding: 14px 18px; gap: 14px; cursor: pointer; user-select: none;
+}
+.rank {
+  font-family: 'Playfair Display', serif; font-size: 1.25rem;
+  font-weight: 600; color: var(--gold); width: 34px; text-align: center; flex-shrink: 0;
+}
+.rank.r1 { color: #ffd700; }
+.rank.r2 { color: #c0c0c0; }
+.rank.r3 { color: #cd7f32; }
+.p-name { font-size: 1rem; font-weight: 500; flex: 1; }
+.total-pts {
+  font-family: 'Playfair Display', serif; font-size: 1.25rem;
+  font-weight: 600; color: var(--gold-light);
+}
+.pts-label { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.chevron { color: var(--text-muted); font-size: 0.75rem; transition: transform 0.2s; margin-left: 6px; }
+.card.open .chevron { transform: rotate(180deg); }
 
-/* Tier headers */
-.tier-hdr{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);margin:12px 0 4px;font-size:12px;font-weight:500}
-.th1{background:#fef2f2;color:#b91c1c}
-.th2{background:#fdf6e3;color:#92400e}
-.th3{background:var(--green-light);color:var(--green)}
-.th4{background:#f1f5f9;color:#475569}
+.golfers { display: none; border-top: 1px solid var(--card-border); }
+.card.open .golfers { display: block; }
+.golfer-row {
+  display: flex; align-items: center;
+  padding: 9px 18px 9px 66px; gap: 10px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+}
+.golfer-row:last-child { border-bottom: none; }
+.g-name { flex: 1; font-size: 0.87rem; color: var(--cream-dark); }
+.g-pos  { font-size: 0.8rem; font-weight: 500; width: 36px; text-align: center; color: var(--text-muted); }
+.g-score { font-size: 0.88rem; font-weight: 500; width: 38px; text-align: right; }
+.under { color: var(--green-score); }
+.over  { color: var(--red); }
+.even  { color: var(--text-muted); }
+.g-thru { font-size: 0.74rem; color: var(--text-muted); width: 54px; text-align: right; }
+.g-pts  { font-size: 0.76rem; font-weight: 500; width: 44px; text-align: right; color: var(--gold); }
+.g-pts.zero { color: var(--text-muted); }
+.tag-cut {
+  font-size: 0.64rem; padding: 2px 6px; border-radius: 8px;
+  background: rgba(224,92,92,0.15); color: var(--red); border: 1px solid rgba(224,92,92,0.3);
+}
+.tag-wd {
+  font-size: 0.64rem; padding: 2px 6px; border-radius: 8px;
+  background: rgba(168,184,168,0.08); color: var(--text-muted); border: 1px solid rgba(168,184,168,0.2);
+}
 
-/* Tier badges */
-.tb{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;flex-shrink:0}
-.tb1{background:#fef2f2;color:#b91c1c}
-.tb2{background:#fdf6e3;color:#92400e}
-.tb3{background:var(--green-light);color:var(--green)}
-.tb4{background:#f1f5f9;color:#475569}
+/* Masters leaderboard */
+.lb-table {
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden;
+}
+.lb-head {
+  display: flex; padding: 10px 16px; gap: 10px;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 0.68rem; font-weight: 500; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.lb-row {
+  display: flex; align-items: center; padding: 10px 16px; gap: 10px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  animation: fadeUp 0.3s ease both;
+}
+.lb-row:last-child { border-bottom: none; }
+.lb-row.in-sweep { background: rgba(201,168,76,0.07); }
+.col-pos  { width: 38px; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); flex-shrink: 0; }
+.col-name { flex: 1; font-size: 0.88rem; }
+.sweep-tag {
+  font-size: 0.62rem; padding: 1px 6px; border-radius: 8px; margin-left: 6px;
+  background: rgba(201,168,76,0.18); color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3); vertical-align: middle;
+}
+.col-score { width: 42px; text-align: right; font-size: 0.88rem; font-weight: 500; }
+.col-thru  { width: 58px; text-align: right; font-size: 0.75rem; color: var(--text-muted); }
+.gold1 { color: #ffd700; font-weight: 600; }
+.gold2 { color: #c0c0c0; }
+.gold3 { color: #cd7f32; }
 
-/* Golfer rows */
-.g-row{display:flex;align-items:center;padding:6px 8px;border-bottom:1px solid var(--border);font-size:13px;gap:8px}
-.g-row:last-child{border-bottom:none}
-.g-odds{margin-left:auto;font-size:11px;color:var(--text-hint);flex-shrink:0}
-.g-del{background:none;border:none;cursor:pointer;font-size:15px;color:var(--text-hint);padding:2px 4px;border-radius:4px;flex-shrink:0}
-.g-del:hover{color:var(--red);background:var(--red-bg)}
+.state-msg {
+  text-align: center; padding: 3rem 1rem;
+  color: var(--text-muted); font-size: 0.88rem; line-height: 2;
+}
+.spinner {
+  width: 26px; height: 26px; border: 2px solid rgba(201,168,76,0.15);
+  border-top-color: var(--gold); border-radius: 50%;
+  animation: spin 0.8s linear infinite; margin: 0 auto 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* Info boxes */
-.info{font-size:12px;color:var(--text-muted);background:var(--bg);border-radius:var(--r);padding:9px 12px;margin-bottom:12px;line-height:1.5;border:1px solid var(--border)}
-.info-green{background:var(--green-light);border-color:var(--green-border);color:var(--green)}
-.info-gold{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold)}
+footer {
+  text-align: center; padding: 1rem; font-size: 0.72rem;
+  color: var(--text-muted); border-top: 1px solid var(--card-border); opacity: 0.6;
+}
 
-/* Points table */
-.pts-table{width:100%;font-size:13px;border-collapse:collapse}
-.pts-table th{text-align:left;padding:6px 10px;font-weight:500;font-size:12px;color:var(--text-muted);background:var(--bg);border-bottom:1px solid var(--border)}
-.pts-table td{padding:7px 10px;border-bottom:1px solid var(--border)}
-.pts-table tr:last-child td{border-bottom:none}
-.pts-val{font-weight:500;color:var(--green)}
-
-/* Draw cards */
-.draw-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rlg);padding:14px 16px;margin-bottom:10px;opacity:0;transform:translateY(10px);transition:opacity .35s,transform .35s;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.draw-card.vis{opacity:1;transform:none}
-.dc-name{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;margin-bottom:9px}
-.dc-picks{display:flex;flex-wrap:wrap;gap:6px}
-.pick{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bg);border:1px solid var(--border);border-radius:20px;font-size:12px}
-
-/* Share box */
-.share-box{background:var(--green-light);border:1px solid var(--green-border);border-radius:var(--rlg);padding:14px 16px;margin-bottom:14px}
-.share-box p{font-size:13px;color:var(--green);margin-bottom:10px}
-.share-url{width:100%;padding:8px 10px;border:1px solid var(--green-border);border-radius:var(--r);font-size:12px;font-family:monospace;background:#fff;color:var(--text-muted);word-break:break-all}
-
-/* Leaderboard */
-.lb-row{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--border);transition:background .1s}
-.lb-row:last-child{border-bottom:none}
-.lb-row:hover{background:var(--bg)}
-.lb-pos{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
-.pos1{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
-.pos2{background:#f5f5f5;color:#555;border:1px solid #ddd}
-.pos3{background:#fdf0e8;color:#c0622b;border:1px solid #e8c4a0}
-.posn{background:#f9f9f9;color:#aaa;border:1px solid #eee}
-.lb-info{flex:1;min-width:0}
-.lb-name{font-weight:500;font-size:14px}
-.lb-picks{font-size:12px;color:var(--text-muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-pts{text-align:right;flex-shrink:0}
-.pts-big{font-size:18px;font-weight:500;color:var(--green)}
-.pts-detail{font-size:11px;color:var(--text-muted);margin-top:2px}
-
-/* Points key */
-.pts-key{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.pts-pill{display:flex;align-items:center;gap:4px;padding:4px 9px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:12px}
-.pts-pill strong{color:var(--green);font-weight:500}
-
-/* Full leaderboard rows */
-.flb-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px}
-.flb-row:last-child{border-bottom:none}
-.flb-pos{width:30px;text-align:center;font-weight:500;font-size:12px;color:var(--text-muted);flex-shrink:0}
-.flb-name{flex:1}
-.score-under{color:#1b5e35;font-weight:500}
-.score-over{color:var(--red);font-weight:500}
-.score-e{color:var(--text-muted)}
-
-/* Loading */
-.loading{text-align:center;padding:2.5rem 1rem}
-.spinner{width:24px;height:24px;border:2.5px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading p{font-size:13px;color:var(--text-muted)}
-
-/* Lock banner */
-.lock-banner{background:var(--green-light);border:1px solid var(--green-border);border-radius:var(--rlg);padding:13px 16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
-.lock-icon{font-size:18px;flex-shrink:0;margin-top:1px}
-.lock-banner p{font-size:13px;color:var(--green);line-height:1.4}
-
-.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.mt{margin-top:12px}
-.divider{border:none;border-top:1px solid var(--border);margin:14px 0}
-.hint{font-size:12px;color:var(--text-muted);margin-top:6px;text-align:center}
-.empty{text-align:center;padding:2rem 1rem;color:var(--text-muted);font-size:13px}
-@media(max-width:440px){.ntab{font-size:11px;padding:12px 4px}}
+@media (max-width: 520px) {
+  .golfer-row { padding-left: 18px; }
+  .g-thru, .col-thru { display: none; }
+}
 </style>
 </head>
 <body>
 
-<div class="hdr">
-  <p class="hdr-eye">Augusta National · April 9–12, 2026</p>
-  <h1>Masters Sweepstake</h1>
-  <p class="hdr-sub">90th Masters Tournament · £65 pot</p>
-  <div><span class="live-pill"><span class="live-dot"></span><span id="live-txt">Live scoring active</span></span></div>
+<header>
+  <div class="flag-line"><span>⛳</span></div>
+  <h1>Masters 2026</h1>
+  <p class="subtitle">Augusta National &nbsp;·&nbsp; April 10–13 &nbsp;·&nbsp; Office Sweepstake</p>
+  <div class="points-key">
+    <span class="pk">🏆 Win = 30</span>
+    <span class="pk">Top 5 = 15</span>
+    <span class="pk">Top 10 = 8</span>
+    <span class="pk">Top 20 = 4</span>
+    <span class="pk">Top 30 = 2</span>
+    <span class="pk">Made Cut = 1</span>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('sweep')">🏆 Sweepstake</div>
+  <div class="tab" onclick="switchTab('lb')">📋 Masters Leaderboard</div>
 </div>
 
-<div class="nav">
-  <button class="ntab on" id="t-setup" onclick="go('setup')">Setup</button>
-  <button class="ntab" id="t-draw" onclick="go('draw')">Draw</button>
-  <button class="ntab" id="t-leaderboard" onclick="go('leaderboard')">Leaderboard</button>
+<div class="controls">
+  <span class="last-updated" id="lastUpdated">Loading scores…</span>
+  <button class="refresh-btn" id="refreshBtn" onclick="loadScores()">↻ Refresh</button>
 </div>
 
-<!-- SETUP -->
-<div id="panel-setup" class="panel on">
-  <div id="lock-banner" style="display:none" class="lock-banner">
-    <span class="lock-icon">🔒</span>
-    <p>Draw is locked. Share the <strong>Draw</strong> tab URL with participants — anyone with the link sees the same results and live leaderboard.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-hdr"><span class="card-title">Participants</span><span id="p-count" style="font-size:12px;color:var(--text-muted)"></span></div>
-    <div id="plist"></div>
-    <div class="mt row">
-      <button class="btn btn-sm" onclick="addP()">+ Add participant</button>
-      <span style="font-size:12px;color:var(--text-muted)">13 participants needed for this draw</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-hdr"><span class="card-title">Points system</span></div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px">Points accumulate across all 4 of your picks. Highest total wins the £65.</p>
-    <table class="pts-table">
-      <tr><th>Finish</th><th>Points</th></tr>
-      <tr><td>Winner</td><td class="pts-val">30 pts</td></tr>
-      <tr><td>Top 5</td><td class="pts-val">15 pts</td></tr>
-      <tr><td>Top 10</td><td class="pts-val">8 pts</td></tr>
-      <tr><td>Top 20</td><td class="pts-val">4 pts</td></tr>
-      <tr><td>Top 30</td><td class="pts-val">2 pts</td></tr>
-      <tr><td>Made cut</td><td class="pts-val">1 pt</td></tr>
-    </table>
-  </div>
-
-  <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">Field — 52 players, 4 tiers</span>
-      <span id="fcount" style="font-size:12px;color:var(--text-muted)"></span>
-    </div>
-    <div class="info">Ranked by bookies odds. Each participant draws one from each tier. Add or remove players before running the draw.</div>
-    <div id="field-wrap"></div>
-    <hr class="divider">
-    <div class="row mt">
-      <input type="text" id="np" placeholder="Player name" style="flex:2;min-width:120px">
-      <select id="nt">
-        <option value="1">Tier 1</option><option value="2">Tier 2</option>
-        <option value="3" selected>Tier 3</option><option value="4">Tier 4</option>
-      </select>
-      <button class="btn btn-sm" onclick="addGolfer()">Add</button>
-    </div>
-  </div>
-
-  <div style="text-align:center;padding:8px 0 20px">
-    <button class="btn btn-primary" id="runbtn" onclick="runDraw()" disabled>Run the draw</button>
-    <p class="hint" id="hint"></p>
-    <p class="hint" style="margin-top:3px">Results are encoded into a shareable URL — no account needed</p>
-  </div>
+<div class="panel active" id="panel-sweep">
+  <div class="state-msg"><div class="spinner"></div>Fetching live scores…</div>
+</div>
+<div class="panel" id="panel-lb">
+  <div class="state-msg"><div class="spinner"></div>Fetching live scores…</div>
 </div>
 
-<!-- DRAW -->
-<div id="panel-draw" class="panel">
-  <div id="draw-loading" class="loading"><div class="spinner"></div><p>Loading draw...</p></div>
-  <div id="draw-content" style="display:none">
-    <div class="share-box">
-      <p>Share this URL with your participants — anyone with it sees the draw and live leaderboard:</p>
-      <input type="text" id="share-url" class="share-url" readonly onclick="this.select()">
-      <div class="mt row">
-        <button class="btn btn-sm btn-gold" onclick="copyURL()">Copy link</button>
-        <button class="btn btn-sm btn-danger" onclick="if(confirm('Reset the draw?'))resetDraw()">Reset draw</button>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hdr">
-        <span class="card-title">Draw results</span>
-        <button class="btn btn-sm" id="copy-btn" onclick="copyText()">Copy as text</button>
-      </div>
-      <div id="draw-results"></div>
-    </div>
-  </div>
-  <div id="draw-empty" style="display:none" class="empty">
-    No draw yet. <a href="#" onclick="go('setup');return false" style="color:var(--green)">Set it up first →</a>
-  </div>
-</div>
-
-<!-- LEADERBOARD -->
-<div id="panel-leaderboard" class="panel">
-  <div id="lb-loading" class="loading"><div class="spinner"></div><p>Fetching live scores...</p></div>
-  <div id="lb-content" style="display:none">
-    <div class="pts-key" id="pts-key">
-      <div class="pts-pill">Win <strong>30</strong></div>
-      <div class="pts-pill">Top 5 <strong>15</strong></div>
-      <div class="pts-pill">Top 10 <strong>8</strong></div>
-      <div class="pts-pill">Top 20 <strong>4</strong></div>
-      <div class="pts-pill">Top 30 <strong>2</strong></div>
-      <div class="pts-pill">Cut <strong>1</strong></div>
-    </div>
-    <div class="card">
-      <div class="card-hdr">
-        <span class="card-title">Sweepstake standings</span>
-        <button class="btn btn-sm" onclick="fetchLB()">Refresh</button>
-      </div>
-      <div id="lb-list"></div>
-    </div>
-    <div class="card" id="full-lb-card" style="display:none">
-      <div class="card-hdr"><span class="card-title">Augusta leaderboard</span></div>
-      <div id="full-lb"></div>
-    </div>
-  </div>
-</div>
+<footer>Live scores via masters.com · Auto-refreshes every 3 min · Gold-tinted rows = in your sweepstake</footer>
 
 <script>
-const TNAMES={1:'Tier 1 — favourites (5/1–30/1)',2:'Tier 2 — contenders (30/1–65/1)',3:'Tier 3 — each-way (70/1–100/1)',4:'Tier 4 — longshots (100/1–200/1)'};
-const THDR_CLS={1:'th1',2:'th2',3:'th3',4:'th4'};
-const TB_CLS={1:'tb1',2:'tb2',3:'tb3',4:'tb4'};
-
-const POINTS={1:30,5:15,10:8,20:4,30:2,cut:1};
-
-let ps=Array(13).fill('');
-let savedResults=null;
-
-let field=[
-  // Tier 1 — 5/1 to 30/1
-  {n:'Scottie Scheffler',t:1,o:'5/1'},{n:'Bryson DeChambeau',t:1,o:'10/1'},{n:'Jon Rahm',t:1,o:'10/1'},
-  {n:'Rory McIlroy',t:1,o:'12/1'},{n:'Xander Schauffele',t:1,o:'15/1'},{n:'Ludvig Åberg',t:1,o:'17/1'},
-  {n:'Matt Fitzpatrick',t:1,o:'22/1'},{n:'Cameron Young',t:1,o:'22/1'},{n:'Tommy Fleetwood',t:1,o:'22/1'},
-  {n:'Hideki Matsuyama',t:1,o:'27/1'},{n:'Robert MacIntyre',t:1,o:'27/1'},{n:'Justin Rose',t:1,o:'30/1'},
-  {n:'Min Woo Lee',t:1,o:'30/1'},
-  // Tier 2 — 35/1 to 65/1
-  {n:'Patrick Reed',t:2,o:'35/1'},{n:'Collin Morikawa',t:2,o:'35/1'},{n:'Si Woo Kim',t:2,o:'45/1'},
-  {n:'Jordan Spieth',t:2,o:'45/1'},{n:'Brooks Koepka',t:2,o:'45/1'},{n:'Chris Gotterup',t:2,o:'55/1'},
-  {n:'Russell Henley',t:2,o:'55/1'},{n:'Nicolai Højgaard',t:2,o:'55/1'},{n:'Viktor Hovland',t:2,o:'55/1'},
-  {n:'Akshay Bhatia',t:2,o:'65/1'},{n:'Maverick McNealy',t:2,o:'65/1'},{n:'Jake Knapp',t:2,o:'70/1'},
-  {n:'Shane Lowry',t:2,o:'70/1'},
-  // Tier 3 — 70/1 to 100/1
-  {n:'Patrick Cantlay',t:3,o:'70/1'},{n:'Justin Thomas',t:3,o:'70/1'},{n:'Adam Scott',t:3,o:'75/1'},
-  {n:'Jason Day',t:3,o:'75/1'},{n:'Sepp Straka',t:3,o:'80/1'},{n:'Tyrrell Hatton',t:3,o:'80/1'},
-  {n:'Corey Conners',t:3,o:'80/1'},{n:'J.J. Spaun',t:3,o:'80/1'},{n:'Jacob Bridgeman',t:3,o:'80/1'},
-  {n:'Sam Burns',t:3,o:'100/1'},{n:'Harris English',t:3,o:'100/1'},{n:'Rasmus Højgaard',t:3,o:'100/1'},
-  {n:'Cameron Smith',t:3,o:'100/1'},
-  // Tier 4 — 100/1 to 200/1
-  {n:'Marco Penge',t:4,o:'100/1'},{n:'Sungjae Im',t:4,o:'125/1'},{n:'Gary Woodland',t:4,o:'125/1'},
-  {n:'Kurt Kitayama',t:4,o:'150/1'},{n:'Daniel Berger',t:4,o:'175/1'},{n:'Ben Griffin',t:4,o:'175/1'},
-  {n:'Alex Noren',t:4,o:'175/1'},{n:'Ryan Gerard',t:4,o:'175/1'},{n:'Sam Stevens',t:4,o:'200/1'},
-  {n:'Keegan Bradley',t:4,o:'200/1'},{n:'Harry Hall',t:4,o:'200/1'},{n:'Max Homa',t:4,o:'200/1'},
-  {n:'Sergio Garcia',t:4,o:'200/1'}
+const DRAW = [
+  { name:'Kevin',  golfers:['Rory McIlroy','Chris Gotterup','Sam Burns','Ben Griffin'] },
+  { name:'Louis',  golfers:['Xander Schauffele','Brooks Koepka','Corey Conners','Gary Woodland'] },
+  { name:'Joey',   golfers:['Cameron Young','Russell Henley','Harris English','Sergio Garcia'] },
+  { name:'Simon',  golfers:['Ludvig Åberg','Jake Knapp','Patrick Cantlay','Max Homa'] },
+  { name:'Matty',  golfers:['Tommy Fleetwood','Jordan Spieth','Rasmus Højgaard','Sam Stevens'] },
+  { name:'Dan',    golfers:['Justin Rose','Shane Lowry','Cameron Smith','Sungjae Im'] },
+  { name:'Aidan',  golfers:['Bryson DeChambeau','Nicolai Højgaard','Tyrrell Hatton','Alex Noren'] },
+  { name:'Tommy',  golfers:['Scottie Scheffler','Maverick McNealy','Sepp Straka','Ryan Gerard'] },
+  { name:'Alison', golfers:['Hideki Matsuyama','Collin Morikawa','Jason Day','Keegan Bradley'] },
+  { name:'Niall',  golfers:['Matt Fitzpatrick','Patrick Reed','J.J. Spaun','Marco Penge'] },
+  { name:'Jack',   golfers:['Min Woo Lee','Si Woo Kim','Adam Scott','Harry Hall'] },
+  { name:'Connor', golfers:['Robert MacIntyre','Akshay Bhatia','Justin Thomas','Kurt Kitayama'] },
+  { name:'Rich',   golfers:['Jon Rahm','Viktor Hovland','Jacob Bridgeman','Daniel Berger'] },
 ];
 
-// URL state management
-function encodeState(results){
-  try{return btoa(unescape(encodeURIComponent(JSON.stringify(results))));}catch(e){return null;}
-}
-function decodeState(str){
-  try{return JSON.parse(decodeURIComponent(escape(atob(str))));}catch(e){return null;}
-}
-function getStateFromURL(){
-  const h=window.location.hash.slice(1);
-  if(!h)return null;
-  return decodeState(h);
-}
-function setURLState(results){
-  const enc=encodeState(results);
-  if(enc)window.history.replaceState(null,'','#'+enc);
-}
-function getShareURL(){return window.location.href.split('#')[0]+(savedResults?'#'+encodeState(savedResults):'');}
+const ALL_SWEEP = new Set(DRAW.flatMap(p => p.golfers).map(norm));
+const OWNER = {};
+DRAW.forEach(p => p.golfers.forEach(g => { OWNER[norm(g)] = p.name; }));
 
-function go(tab){
-  ['setup','draw','leaderboard'].forEach(t=>{
-    document.getElementById('panel-'+t).classList.toggle('on',t===tab);
-    document.getElementById('t-'+t).classList.toggle('on',t===tab);
-  });
-  if(tab==='draw')renderDrawPanel();
-  if(tab==='leaderboard')fetchLB();
+function norm(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
 }
 
-function renderPs(){
-  document.getElementById('plist').innerHTML=ps.map((p,i)=>`
-    <div class="p-row">
-      <div class="p-num">${i+1}</div>
-      <input type="text" value="${p}" placeholder="Name ${i+1}" oninput="ps[${i}]=this.value;updateBtn()">
-      ${ps.length>2?`<button class="btn btn-sm btn-danger" onclick="removeP(${i})">×</button>`:''}
-    </div>`).join('');
-  document.getElementById('p-count').textContent=ps.filter(p=>p.trim()).length+' / 13';
-  updateBtn();
+function getPoints(posNum, isCut, isWD) {
+  if (isCut || isWD || posNum <= 0) return 0;
+  if (posNum === 1)  return 30;
+  if (posNum <= 5)   return 15;
+  if (posNum <= 10)  return 8;
+  if (posNum <= 20)  return 4;
+  if (posNum <= 30)  return 2;
+  return 1;
 }
 
-function addP(){ps.push('');renderPs();}
-function removeP(i){ps.splice(i,1);renderPs();}
-
-function updateBtn(){
-  const filled=ps.filter(p=>p.trim());
-  const btn=document.getElementById('runbtn');
-  const hint=document.getElementById('hint');
-  const tiers=[1,2,3,4].map(t=>field.filter(f=>f.t===t).length);
-  const minTier=Math.min(...tiers);
-  if(savedResults){btn.disabled=true;hint.textContent='Draw is locked — reset to re-run';return;}
-  if(filled.length<2){btn.disabled=true;hint.textContent='Add at least 2 participants';}
-  else if(filled.length>minTier){btn.disabled=true;hint.textContent=`Too many participants for current field — need at least ${filled.length} per tier`;}
-  else{btn.disabled=false;hint.textContent=`${filled.length} participants · ${field.length} players · 4 tiers`;}
+function fmtScore(n) {
+  if (n === undefined || n === null || n === 'E') return 'E';
+  const v = typeof n === 'number' ? n : parseInt(n);
+  if (isNaN(v) || v === 0) return 'E';
+  return v > 0 ? '+'+v : ''+v;
 }
 
-function renderField(){
-  document.getElementById('fcount').textContent=field.length+' players';
-  let h='';
-  [1,2,3,4].forEach(t=>{
-    const pl=field.filter(f=>f.t===t);
-    if(!pl.length)return;
-    h+=`<div class="tier-hdr ${THDR_CLS[t]}">${TNAMES[t]} (${pl.length})</div><div>`;
-    pl.forEach(p=>{
-      const idx=field.indexOf(p);
-      h+=`<div class="g-row"><span class="tb ${TB_CLS[p.t]}">${p.t}</span>${p.n}<span class="g-odds">${p.o}</span><button class="g-del" onclick="removeGolfer(${idx})">×</button></div>`;
-    });
-    h+='</div>';
-  });
-  document.getElementById('field-wrap').innerHTML=h;
-  updateBtn();
+function sCls(n) {
+  const v = typeof n === 'number' ? n : parseInt(n);
+  if (isNaN(v) || v === 0) return 'even';
+  return v < 0 ? 'under' : 'over';
 }
 
-function removeGolfer(i){field.splice(i,1);renderField();}
-function addGolfer(){
-  const n=document.getElementById('np').value.trim();
-  const t=+document.getElementById('nt').value;
-  if(!n||field.find(f=>f.n.toLowerCase()===n.toLowerCase()))return;
-  field.push({n,t,o:'–'});field.sort((a,b)=>a.t-b.t);
-  document.getElementById('np').value='';renderField();
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) =>
+    t.classList.toggle('active', (tab==='sweep'&&i===0)||(tab==='lb'&&i===1)));
+  document.getElementById('panel-sweep').classList.toggle('active', tab==='sweep');
+  document.getElementById('panel-lb').classList.toggle('active', tab==='lb');
 }
 
-function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+function toggleCard(el) { el.classList.toggle('open'); }
 
-function runDraw(){
-  const filled=ps.filter(p=>p.trim());
-  const results={};
-  const bt={};
-  [1,2,3,4].forEach(t=>{bt[t]=shuffle(field.filter(f=>f.t===t));});
-  filled.forEach((p,i)=>{results[p]=[bt[1][i],bt[2][i],bt[3][i],bt[4][i]].filter(Boolean);});
-  savedResults=results;
-  setURLState(results);
-  document.getElementById('lock-banner').style.display='flex';
-  updateBtn();
-  go('draw');
-}
+async function loadScores() {
+  const btn = document.getElementById('refreshBtn');
+  const upd = document.getElementById('lastUpdated');
+  btn.disabled = true; btn.textContent = '↻ Updating…';
 
-function resetDraw(){
-  savedResults=null;
-  window.history.replaceState(null,'','#');
-  document.getElementById('lock-banner').style.display='none';
-  updateBtn();
-  go('setup');
-}
+  const PROXY       = 'https://corsproxy.io/?';
+  const MASTERS_URL = 'https://www.masters.com/en_US/scores/feeds/2026/scores.json';
+  const ESPN_URL    = 'https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard';
 
-function renderDrawPanel(){
-  document.getElementById('draw-loading').style.display='none';
-  if(savedResults){
-    document.getElementById('draw-content').style.display='block';
-    document.getElementById('draw-empty').style.display='none';
-    document.getElementById('share-url').value=getShareURL();
-    const entries=Object.entries(savedResults);
-    document.getElementById('draw-results').innerHTML=entries.map(([name,golfers],i)=>`
-      <div class="draw-card" id="dc${i}">
-        <div class="dc-name">${name}</div>
-        <div class="dc-picks">${golfers.map(g=>`<div class="pick"><span class="tb ${TB_CLS[g.t]}">${g.t}</span>${g.n}<span style="font-size:11px;color:var(--text-hint)">${g.o}</span></div>`).join('')}</div>
-      </div>`).join('');
-    entries.forEach((_,i)=>setTimeout(()=>{const e=document.getElementById('dc'+i);if(e)e.classList.add('vis');},i*120+60));
-  }else{
-    document.getElementById('draw-content').style.display='none';
-    document.getElementById('draw-empty').style.display='block';
-  }
-}
+  let allPlayers = [];
 
-function copyURL(){
-  navigator.clipboard.writeText(getShareURL()).then(()=>{
-    const b=document.querySelector('.btn-gold');const orig=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=orig,2000);
-  });
-}
+  // 1 — masters.com
+  try {
+    const res  = await fetch(PROXY + encodeURIComponent(MASTERS_URL));
+    const data = await res.json();
+    const list = data?.data?.player || [];
+    if (list.length) {
+      allPlayers = list.map(p => {
+        const name   = ((p.first_name||'')+' '+(p.last_name||'')).trim();
+        const posRaw = String(p.pos || '');
+        const posNum = parseInt(posRaw.replace(/\D/g,'')) || 0;
+        const isCut  = /^CUT$/i.test(posRaw) || p.status === 'C';
+        const isWD   = /^WD$/i.test(posRaw)  || p.status === 'W';
+        const rawScore = p.topar;
+        const score  = (rawScore === 'E' || rawScore === undefined) ? 0 : (parseInt(rawScore) || 0);
+        const thru   = p.thru || '';
+        return { name, score, posNum, posRaw, thru, isCut, isWD };
+      });
+    }
+  } catch(_) {}
 
-function copyText(){
-  if(!savedResults)return;
-  const lines=['Masters 2026 — Office Sweepstake','Augusta National · April 9–12',''];
-  Object.entries(savedResults).forEach(([n,gs])=>lines.push(`${n}: ${gs.map(g=>g.n).join(' / ')}`));
-  lines.push('','Points: Win=30, Top 5=15, Top 10=8, Top 20=4, Top 30=2, Cut=1');
-  navigator.clipboard.writeText(lines.join('\n')).then(()=>{
-    const b=document.getElementById('copy-btn');b.textContent='Copied!';setTimeout(()=>b.textContent='Copy as text',2000);
-  });
-}
-
-// Scoring
-function norm(s){return(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();}
-function fmtScore(s){if(!s||s==='E'||s==='0'||s===0)return'E';const n=parseInt(s);if(isNaN(n))return s||'E';return n>0?'+'+n:''+n;}
-function scoreCls(s){const n=parseInt(s);if(isNaN(n)||n===0)return'score-e';return n<0?'score-under':'score-over';}
-
-function parsePos(c){const disp=c.status?.position?.displayName||'';const id=c.status?.position?.id||'';const raw=disp||id;if(!raw)return 999;const n=parseInt(raw.replace(/[^0-9]/g,''));return isNaN(n)?999:n;}
-function isMC(c){const status=(c.status?.type?.name||'').toLowerCase();const detail=(c.status?.type?.shortDetail||'').toLowerCase();return status.includes('cut')||status.includes('wd')||status.includes('dq')||detail.includes('cut')||detail.includes('wd');}
-function calcPoints(pos,cut){if(cut)return 0;if(pos===1)return POINTS[1];if(pos<=5)return POINTS[5];if(pos<=10)return POINTS[10];if(pos<=20)return POINTS[20];if(pos<=30)return POINTS[30];if(pos<999)return POINTS.cut;return 0;}  if(!made_cut)return 0;
-  const p=parseInt(pos)||999;
-  if(p===1)return POINTS[1];
-  if(p<=5)return POINTS[5];
-  if(p<=10)return POINTS[10];
-  if(p<=20)return POINTS[20];
-  if(p<=30)return POINTS[30];
-  return POINTS.cut;
-}
-
-async function fetchLB(){
-  document.getElementById('lb-loading').style.display='block';
-  document.getElementById('lb-content').style.display='none';
-  try{
-    const res=await fetch('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard');
-    const data=await res.json();
-    const ev=data.events?.[0];
-    const comps=ev?.competitions?.[0]?.competitors||[];
-    const isMasters=ev?.name?.toLowerCase().includes('master');
-    document.getElementById('lb-loading').style.display='none';
-    document.getElementById('lb-content').style.display='block';
-
-    // Update live pill
-    const pill=document.getElementById('live-txt');
-    if(!isMasters){pill.textContent='Live Thursday 9 Apr';}
-
-    // Build score map
-    const sm={};
-    comps.forEach(c=>{
-      const n=c.athlete?.displayName||'';
-      const posRaw=c.status?.position?.displayName||'';
-      const pos=posRaw.replace(/T/g,'')||'999';
-      const status=c.status?.type?.name||'';
-      const made_cut=!['cut','wd','dq'].some(x=>status.toLowerCase().includes(x));
-      const thru=c.status?.type?.shortDetail||'';
-      sm[norm(n)]={name:n,score:c.score||'0',pos,made_cut,thru,status};
-    });
-
-    // Sweepstake standings
-    if(!savedResults){
-      document.getElementById('lb-list').innerHTML=`<div class="empty">No draw yet.<br><a href="#" onclick="go('setup');return false" style="color:var(--green)">Run the draw first →</a></div>`;
-    }else{
-      const standings=Object.entries(savedResults).map(([participant,golfers])=>{
-        let total=0;
-        const pickDetails=golfers.map(g=>{
-          const m=sm[norm(g.n)];
-          const pts=m?calcPoints(m.pos,m.made_cut):0;
-          total+=pts;
-          return{...g,match:m,pts};
+  // 2 — ESPN (direct then proxied)
+  if (!allPlayers.length) {
+    for (const url of [ESPN_URL, PROXY + encodeURIComponent(ESPN_URL)]) {
+      try {
+        const res  = await fetch(url);
+        const data = await res.json();
+        const events = data.events || [];
+        const ev = events.find(e => e.name?.toLowerCase().includes('master'))
+                || events.find(e => (e.competitions?.[0]?.competitors?.length||0) > 10);
+        if (!ev) continue;
+        const comps = ev.competitions?.[0]?.competitors || [];
+        if (!comps.length) continue;
+        allPlayers = comps.map(c => {
+          const name   = c.athlete?.displayName || '';
+          const st     = c.status?.type?.name || '';
+          const posRaw = c.status?.position?.displayName || '';
+          const posNum = parseInt(posRaw.replace(/\D/g,'')) || 0;
+          const isCut  = st === 'STATUS_CUT';
+          const isWD   = st === 'STATUS_WITHDRAWN';
+          const score  = parseInt(c.score) || 0;
+          const thru   = c.status?.type?.shortDetail || '';
+          return { name, score, posNum, posRaw, thru, isCut, isWD };
         });
-        return{participant,picks:pickDetails,total};
-      }).sort((a,b)=>b.total-a.total);
-
-      document.getElementById('lb-list').innerHTML=standings.map((s,i)=>{
-        const rank=i+1;
-        const pcls=rank===1?'pos1':rank===2?'pos2':rank===3?'pos3':'posn';
-        const pickSummary=s.picks.map(p=>{
-          const score=p.match?fmtScore(p.match.score):'–';
-          const pos=p.match?(p.match.pos==='999'?'MC':p.match.pos==='0'?'–':'T'+p.match.pos):'–';
-          return`${p.n} ${pos!=='–'&&pos!=='MC'?'('+pos+')':''}`;
-        }).join(' · ');
-        const ptBreakdown=s.picks.filter(p=>p.pts>0).map(p=>`${p.n.split(' ').pop()} +${p.pts}`).join(', ')||'0 pts so far';
-        return`<div class="lb-row">
-          <div class="lb-pos ${pcls}">${rank}</div>
-          <div class="lb-info">
-            <div class="lb-name">${s.participant}</div>
-            <div class="lb-picks">${isMasters&&comps.length?pickSummary:s.picks.map(p=>p.n).join(' / ')}</div>
-          </div>
-          <div class="lb-pts">
-            <div class="pts-big">${s.total}</div>
-            <div class="pts-detail">${isMasters&&comps.length?ptBreakdown:'pre-tournament'}</div>
-          </div>
-        </div>`;
-      }).join('');
+        break;
+      } catch(_) {}
     }
-
-    // Full Augusta leaderboard top 20
-    if(isMasters&&comps.length){
-      document.getElementById('full-lb-card').style.display='block';
-      document.getElementById('full-lb').innerHTML=comps.slice(0,20).map((c,i)=>{
-        const n=c.athlete?.displayName||'';
-        const s=c.score||'0';
-        const posRaw=(c.status?.position?.displayName||'–');
-        const thru=c.status?.type?.shortDetail||'';
-        return`<div class="flb-row">
-          <div class="flb-pos">${posRaw}</div>
-          <div class="flb-name">${n}</div>
-          <div style="font-size:12px;color:var(--text-muted);flex-shrink:0">${thru}</div>
-          <div style="min-width:36px;text-align:right;flex-shrink:0;font-size:13px" class="${scoreCls(s)}">${fmtScore(s)}</div>
-        </div>`;
-      }).join('');
-    }else if(!isMasters){
-      document.getElementById('full-lb-card').style.display='none';
-      if(savedResults){
-        document.getElementById('lb-list').innerHTML=`<div class="info info-green" style="margin:0 0 12px">Masters starts Thursday 9 April — come back then for live standings.</div>`
-          +Object.entries(savedResults).map(([name,golfers],i)=>`<div class="lb-row">
-            <div class="lb-pos posn">${i+1}</div>
-            <div class="lb-info"><div class="lb-name">${name}</div><div class="lb-picks">${golfers.map(g=>g.n).join(' / ')}</div></div>
-            <div class="lb-pts"><div class="pts-big" style="color:var(--text-muted)">–</div></div>
-          </div>`).join('');
-      }
-    }
-  }catch(e){
-    document.getElementById('lb-loading').style.display='none';
-    document.getElementById('lb-content').style.display='block';
-    document.getElementById('lb-list').innerHTML='<div class="empty">Could not load scores — check connection and refresh.</div>';
   }
+
+  if (!allPlayers.length) {
+    const err = '<div class="state-msg">⚠️ Could not fetch scores.<br>Check your connection and hit refresh.</div>';
+    document.getElementById('panel-sweep').innerHTML = err;
+    document.getElementById('panel-lb').innerHTML    = err;
+    upd.textContent = 'Error — try refreshing';
+    btn.disabled = false; btn.textContent = '↻ Refresh';
+    return;
+  }
+
+  const sm = {};
+  allPlayers.forEach(p => { sm[norm(p.name)] = p; });
+
+  // ── Sweepstake tab ──
+  const participants = DRAW.map(p => {
+    let totalPts = 0;
+    const gs = p.golfers.map(g => {
+      const m   = sm[norm(g)] || null;
+      const pts = m ? getPoints(m.posNum, m.isCut, m.isWD) : 0;
+      totalPts += pts;
+      return { name:g, data:m, pts };
+    });
+    return { name:p.name, golfers:gs, totalPts };
+  }).sort((a,b) => {
+    if (b.totalPts !== a.totalPts) return b.totalPts - a.totalPts;
+    const bA = Math.min(...a.golfers.map(g => g.data?.posNum||999));
+    const bB = Math.min(...b.golfers.map(g => g.data?.posNum||999));
+    return bA - bB;
+  });
+
+  document.getElementById('panel-sweep').innerHTML = participants.map((p,i) => {
+    const r = i+1;
+    const rCls = r===1?'r1':r===2?'r2':r===3?'r3':'';
+    const rTxt = r===1?'1st':r===2?'2nd':r===3?'3rd':r+'th';
+    const rows = p.golfers.map(g => {
+      const d = g.data;
+      if (!d) return `<div class="golfer-row">
+        <span class="g-name">${g.name}</span>
+        <span class="g-pos">–</span><span class="g-score even">–</span>
+        <span class="g-thru">–</span><span class="g-pts zero">0 pts</span></div>`;
+      const pos = d.isCut ? '<span class="tag-cut">CUT</span>'
+                : d.isWD  ? '<span class="tag-wd">WD</span>'
+                : (d.posRaw||'–');
+      return `<div class="golfer-row">
+        <span class="g-name">${g.name}</span>
+        <span class="g-pos">${pos}</span>
+        <span class="g-score ${sCls(d.score)}">${fmtScore(d.score)}</span>
+        <span class="g-thru">${d.thru}</span>
+        <span class="g-pts ${g.pts?'':'zero'}">${g.pts} pts</span>
+      </div>`;
+    }).join('');
+    return `<div class="card" style="animation-delay:${i*0.05}s" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="rank ${rCls}">${rTxt}</div>
+        <div class="p-name">${p.name}</div>
+        <div style="text-align:right">
+          <div class="total-pts">${p.totalPts}</div>
+          <div class="pts-label">pts</div>
+        </div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="golfers">${rows}</div>
+    </div>`;
+  }).join('');
+
+  // ── Masters leaderboard tab ──
+  const sorted = [...allPlayers]
+    .filter(p => !p.isWD)
+    .sort((a,b) => {
+      if (a.isCut !== b.isCut) return a.isCut ? 1 : -1;
+      if (a.posNum !== b.posNum) return (a.posNum||999) - (b.posNum||999);
+      return a.score - b.score;
+    });
+
+  const lbRows = sorted.map((p,i) => {
+    const inSweep = ALL_SWEEP.has(norm(p.name));
+    const owner   = OWNER[norm(p.name)] || '';
+    const pCls    = p.posNum===1?'gold1':p.posNum===2?'gold2':p.posNum===3?'gold3':'';
+    const posDisp = p.isCut ? '<span class="tag-cut">CUT</span>' : (p.posRaw||'–');
+    return `<div class="lb-row ${inSweep?'in-sweep':''}" style="animation-delay:${i*0.012}s">
+      <div class="col-pos ${pCls}">${posDisp}</div>
+      <div class="col-name">${p.name}${inSweep?`<span class="sweep-tag">${owner}</span>`:''}</div>
+      <div class="col-score ${sCls(p.score)}">${fmtScore(p.score)}</div>
+      <div class="col-thru">${p.thru}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('panel-lb').innerHTML = `
+    <div class="lb-table">
+      <div class="lb-head">
+        <div class="col-pos">Pos</div>
+        <div style="flex:1">Player</div>
+        <div class="col-score">Score</div>
+        <div class="col-thru">Thru</div>
+      </div>${lbRows}
+    </div>`;
+
+  const now = new Date();
+  upd.textContent = `Updated ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  btn.disabled = false; btn.textContent = '↻ Refresh';
 }
 
-// Init
-(function(){
-  const fromURL=getStateFromURL();
-  if(fromURL){
-    savedResults=fromURL;
-    document.getElementById('lock-banner').style.display='flex';
-  }
-  renderPs();renderField();
-  if(savedResults)updateBtn();
-
-  // Update live pill based on whether Masters is active
-  fetch('https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard').then(r=>r.json()).then(d=>{
-    const ev=d.events?.[0];
-    const pill=document.getElementById('live-txt');
-    if(!ev?.name?.toLowerCase().includes('master'))pill.textContent='Live from Thursday 9 Apr';
-  }).catch(()=>{});
-})();
+loadScores();
+setInterval(loadScores, 3 * 60 * 1000);
 </script>
 </body>
 </html>
